@@ -1,7 +1,7 @@
 /* Sub-Bar Controls */
 .sub-bar {
-  background: var(--surface-color);
-  border-bottom: 1px solid var(--border-color);
+  background: #1e293b;
+  border-bottom: 2px solid #334155;
   padding: 8px 16px;
   display: flex;
   align-items: center;
@@ -9,6 +9,7 @@
   gap: 12px;
   flex-wrap: wrap;
   z-index: 10;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
 }
 
 .sub-bar-left,
@@ -22,32 +23,35 @@
 /* Pill Toggle Groups */
 .pill-group {
   display: inline-flex;
-  background: #f1f5f9;
-  border-radius: 20px;
+  background: #0f172a;
+  border: 1px solid #334155;
+  border-radius: 9999px;
   padding: 3px;
-  gap: 2px;
+  gap: 3px;
 }
 
 .pill-btn {
   border: none;
   background: transparent;
-  color: var(--text-muted);
-  padding: 4px 12px;
-  font-size: 0.82rem;
-  font-weight: 600;
-  border-radius: 16px;
+  color: #94a3b8;
+  padding: 5px 14px;
+  font-family: var(--font-family);
+  font-size: 0.85rem;
+  font-weight: 700;
+  border-radius: 9999px;
   cursor: pointer;
   transition: all 0.15s ease;
 }
 
 .pill-btn:hover {
-  color: var(--text-main);
+  color: #ffffff;
 }
 
 .pill-btn.active {
-  background: #ffffff;
-  color: var(--text-main);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  background: linear-gradient(180deg, #38bdf8 0%, #0284c7 100%);
+  color: #ffffff !important;
+  box-shadow: 0 2px 4px rgba(2, 132, 199, 0.4);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 /* Turn Indicator Badge */
@@ -55,11 +59,12 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 6px 14px;
-  border-radius: 20px;
-  background: #f1f5f9;
-  font-size: 0.85rem;
-  font-weight: 600;
+  padding: 6px 16px;
+  border-radius: 9999px;
+  background: #0f172a;
+  border: 2px solid #334155;
+  font-size: 0.9rem;
+  font-weight: 800;
   letter-spacing: 0.2px;
   transition: all 0.2s ease;
 }
@@ -70,41 +75,45 @@
   border-radius: 50%;
   display: inline-block;
   background-color: var(--x-color);
+  box-shadow: 0 0 6px currentColor;
 }
 
 .turn-badge.turn-x {
-  background: #eff6ff;
-  color: var(--x-color);
+  border-color: #0284c7;
+  color: #38bdf8;
+  background: rgba(2, 132, 199, 0.15);
 }
 .turn-badge.turn-x .turn-dot {
-  background: var(--x-color);
+  background: #38bdf8;
 }
 
 .turn-badge.turn-o {
-  background: #fff7ed;
-  color: var(--o-color);
+  border-color: #ea580c;
+  color: #fb923c;
+  background: rgba(234, 88, 12, 0.15);
 }
 .turn-badge.turn-o .turn-dot {
-  background: var(--o-color);
+  background: #fb923c;
 }
 
 /* Zoom controls */
 .zoom-controls {
   display: inline-flex;
-  background: #f1f5f9;
-  border-radius: var(--radius);
+  background: #0f172a;
+  border-radius: 12px;
   overflow: hidden;
-  border: 1px solid var(--border-color);
+  border: 1px solid #334155;
 }
 
 .zoom-btn {
   border: none;
   background: transparent;
   width: 32px;
-  height: 30px;
-  font-size: 0.95rem;
-  font-weight: 600;
-  color: var(--text-main);
+  height: 32px;
+  font-family: var(--font-family);
+  font-size: 1rem;
+  font-weight: 700;
+  color: #ffffff;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -113,14 +122,16 @@
 }
 
 .zoom-btn:hover {
-  background: #e2e8f0;
+  background: #1e293b;
 }
 
 #btn-zoom-reset {
-  width: 48px;
-  font-size: 0.75rem;
-  border-left: 1px solid var(--border-color);
-  border-right: 1px solid var(--border-color);
+  width: 52px;
+  font-size: 0.8rem;
+  font-weight: 800;
+  color: #94a3b8;
+  border-left: 1px solid #334155;
+  border-right: 1px solid #334155;
 }
 
 /* Board Viewport (Pan & Zoom) */
@@ -297,13 +308,14 @@
 }
 
 .modal-card {
-  background: #ffffff;
-  border-radius: 16px;
-  padding: 24px;
+  background: #1e293b;
+  border: 2px solid #334155;
+  border-radius: 20px;
+  padding: 28px 24px;
   width: 100%;
   max-width: 360px;
   text-align: center;
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
   transform: translateY(0);
   transition: transform 0.2s ease;
 }
@@ -313,21 +325,21 @@
 }
 
 .modal-icon {
-  font-size: 2.5rem;
+  font-size: 2.8rem;
   margin-bottom: 8px;
 }
 
 .modal-title {
-  font-size: 1.35rem;
-  font-weight: 700;
-  color: var(--text-main);
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: #ffffff;
   margin-bottom: 6px;
 }
 
 .modal-msg {
   font-size: 0.95rem;
-  color: var(--text-muted);
-  margin-bottom: 20px;
+  color: #94a3b8;
+  margin-bottom: 22px;
   line-height: 1.4;
 }
 
