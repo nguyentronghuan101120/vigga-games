@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Block Blast — Vigga Mini-Games</title>
+  <link rel="stylesheet" href="../../shared/css/shell.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Header Shell -->
+  <header class="shell-header">
+    <div class="shell-header-left">
+      <a id="btn-hub" class="shell-btn text-label" href="https://vigga.netlify.app/" title="Back to Game Hub">
+        <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"></polyline></svg>
+        <span>Game Hub</span>
+      </a>
+      <button id="btn-undo" class="shell-btn text-label" title="Undo Move">
+        <svg viewBox="0 0 24 24"><path d="M3 7v6h6"></path><path d="M21 17a9 9 0 0 0-9-9 9 9 0 0 0-6 2.3L3 13"></path></svg>
+        <span>Undo</span>
+      </button>
+    </div>
+
+    <div class="shell-header-center">
+      <span>Block Blast</span>
+    </div>
+
+    <div class="shell-header-right">
+      <button id="btn-sound" class="shell-btn icon-only" title="Toggle Sound"></button>
+      <button id="btn-restart" class="shell-btn primary" title="New Game">
+        <svg viewBox="0 0 24 24"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"></path></svg>
+        <span>New Game</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Game Container -->
+  <main class="game-wrapper">
+    <!-- Score & Stats Bar -->
+    <section class="hud-bar" aria-label="Game Statistics">
+      <div class="stat-card">
+        <span class="stat-label">SCORE</span>
+        <span id="current-score" class="stat-value">0</span>
+      </div>
+      <div id="combo-badge" class="combo-pill hidden">
+        <span id="combo-text">COMBO x2</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-label">BEST</span>
+        <span id="best-score" class="stat-value">0</span>
+      </div>
+    </section>
+
+    <!-- Canvas Game Area -->
+    <div class="canvas-container" id="canvas-container">
+      <canvas id="game-canvas"></canvas>
+    </div>
+  </main>
+
+  <!-- Game Over Modal -->
+  <div id="game-over-modal" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal-card">
+      <h2 id="modal-title" class="modal-title">Game Over</h2>
+      <p class="modal-subtitle">No more space for the remaining blocks!</p>
+      
+      <div class="modal-scores">
+        <div class="modal-score-item">
+          <span class="score-label">Final Score</span>
+          <span id="modal-final-score" class="score-number">0</span>
+        </div>
+        <div class="modal-score-item">
+          <span class="score-label">Best Record</span>
+          <span id="modal-best-score" class="score-number">0</span>
+        </div>
+      </div>
+
+      <div id="new-high-badge" class="high-score-badge hidden">NEW HIGH SCORE!</div>
+
+      <div class="modal-actions">
+        <button id="btn-modal-restart" class="shell-btn primary btn-large">
+          <svg viewBox="0 0 24 24"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"></path></svg>
+          <span>Play Again</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script src="../../shared/js/audio.js"></script>
+  <script src="../../shared/js/navigation.js"></script>
+  <script src="game.js"></script>
+</body>
+</html>
+

@@ -1,104 +1,130 @@
 # Vigga Mini-Games — Monorepo Architecture & Decisions
 
-Tài liệu này tổng hợp toàn bộ các quyết định kỹ thuật, kiến trúc hệ thống và lộ trình triển khai các mini-game độc lập, kết nối với trang trung tâm **Game Hub** ([vigga.netlify.app](https://vigga.netlify.app/)).
+This document summarizes the technical decisions, system architecture, and development roadmap for the standalone web mini-games connected to the central **Game Hub** ([vigga.netlify.app](https://vigga.netlify.app/)).
 
 ---
 
-## 1. Mục tiêu & Định hướng dự án
+## 1. Project Objectives & Principles
 
-* **Mục tiêu:** Xây dựng một tập hợp các mini-game giải đố, cờ và arcade trí tuệ. Mỗi game là **1 liên kết web (link) độc lập**.
-* **Trang chủ trung tâm (Hub):** [vigga.netlify.app](https://vigga.netlify.app/) (đã có sẵn danh mục game, mỗi game con sẽ được gán vào thuộc tính `url` tương ứng trong `games.js`).
-* **Trải nghiệm người chơi:** Tải ngay lập tức (< 0.5s), mượt mà trên cả Mobile và Desktop, giao diện đẹp mắt, tinh tế.
-
----
-
-## 2. Quyết định Kỹ thuật (Technical Decisions)
-
-### 2.1. Nền tảng Deploy: **Vercel (Mono-deployment)**
-* **Mô hình triển khai:** Toàn bộ repository được deploy lên 1 project Vercel duy nhất (`vigga-games.vercel.app`).
-* **Lợi ích:** 
-  * Tái sử dụng trực tiếp các module dùng chung `/shared/` (shell.css, audio.js, navigation.js) mà không cần build tool hay copy code.
-  * Mỗi game có đường dẫn web tĩnh độc lập:
-    * Portal chính: `https://vigga-games.vercel.app/`
-    * Game Caro: `https://vigga-games.vercel.app/games/caro/`
-    * Các game kế tiếp: `/games/2048/`, `/games/tetris/`, v.v.
-* **Cập nhật vào Hub:** Gán trực tiếp link tương ứng vào `games.js` của `vigga.netlify.app`.
-
-### 2.2. Công nghệ Cốt lõi: **HTML5 + CSS3 + Vanilla JavaScript**
-* **Tiêu chuẩn:** Không sử dụng các framework nặng (như React/Next.js/Vue) để tránh overhead và lỗi phiên bản build.
-* **Xử lý đồ họa:**
-  * **DOM Grid (CSS Grid + Flexbox):** Dành cho các game bàn cờ ô lưới tĩnh (Caro, Wordle, Sudoku, Queens).
-  * **HTML5 Canvas 2D:** Dành cho các game có chuyển động vật lý/thời gian thực (Tetris, Block Blast, Water Sort).
-* **Âm thanh:** Web Audio API (tạo tiếng click/bíp mềm mại không cần nạp file mp3 nặng).
-
-### 2.3. Phong cách Đồ họa: **Clean Flat / Minimalist**
-* Tham chiếu thiết kế từ: **Wordle (NYT)**, **2048**, và **LinkedIn Games** (Queens, Tango, Pinpoint).
-* Bảng màu: Dịu mắt (soft pastel), tương phản chuẩn công thái học, bo góc viền mềm mại, icon phẳng.
-* Thanh điều hướng trên mỗi game:
-  * Nút `Quay lại Hub` (dẫn về `https://vigga.netlify.app/`).
-  * Nút `Chơi lại (Restart)`.
-  * Nút `Bật/Tắt âm thanh (Mute/Unmute)`.
+* **Objective:** Build a curated collection of standalone puzzle, board, and intellectual arcade mini-games. Each game is accessible via an **independent web link**.
+* **Central Hub:** [vigga.netlify.app](https://vigga.netlify.app/) (contains the master game catalog; each standalone game URL is mapped in `games.js`).
+* **Player Experience:** Instant load time (< 0.5s), responsive on both Mobile and Desktop, clean minimalist aesthetics, zero friction.
 
 ---
 
-## 3. Cấu trúc Thư mục (Monorepo Layout)
+## 2. Technical Architecture & Decisions
+
+### 2.1. Deployment: **Vercel (Mono-Deployment)**
+* **Deployment Model:** The entire repository is deployed as a single project on Vercel (`vigga-games.vercel.app`).
+* **Key Advantages:**
+  * Direct reusability of shared modules (`/shared/css/shell.css`, `/shared/js/audio.js`, `/shared/js/navigation.js`) without build tools or duplicate code.
+  * Independent static web route for each game:
+    * Caro (Gomoku): `https://vigga-games.vercel.app/games/caro/`
+    * Subsequent games: `/games/<game-id>/`
+* **Hub Linking:** Assign the corresponding live URLs to `games.js` in the primary Vigga Hub repository.
+
+### 2.2. Core Technology Stack: **HTML5 + CSS3 + Vanilla JavaScript**
+* **Standard:** Zero heavy front-end frameworks (no React, Next.js, or Vue) to prevent build bloat, lock-in, and dependency overhead.
+* **Rendering Engines:**
+  * **DOM Grid (CSS Grid + Flexbox):** For static grid-based board games (Caro, Wordle, Sudoku, Queens).
+  * **HTML5 Canvas 2D:** For games requiring physics, particle systems, or real-time animations (Tetris, Block Blast, Water Sort).
+* **Audio Synthesis:** Web Audio API (`shared/js/audio.js`) for procedural sound effects without external audio assets.
+
+### 2.3. Design Language: **Clean Flat / Minimalist**
+* **Design Influences:** Wordle (NYT), 2048, and LinkedIn Games (Queens, Tango, Pinpoint).
+* **Visual Palette:** Soft pastel tones, ergonomic contrast ratios, smooth border radii, flat iconography.
+* **Standard Shell Navigation:**
+  * `Back to Hub` button (pointing to `https://vigga.netlify.app/`).
+  * `Undo` action button (where applicable).
+  * `Sound Toggle` (Mute / Unmute persisted in `localStorage`).
+  * `Restart / New Game` primary action button.
+
+---
+
+## 3. Monorepo Structure
 
 ```text
 vigga-games/
-├── README.md                # Tài liệu lưu trữ quyết định dự án
-├── .gitignore               # Cấu hình bỏ qua file rác
-├── shared/                  # Tài nguyên dùng chung
+├── README.md                # System documentation & architectural roadmap
+├── Makefile                 # Deployment shortcuts
+├── .gitignore               # Ignored files and artifacts
+├── .vscode/
+│   └── launch.json          # Chrome debugging configurations
+├── .agents/
+│   └── skills/
+│       └── create-game/     # Autonomous game creation workflow
+│           └── SKILL.md
+├── shared/                  # Common resources across all mini-games
 │   ├── css/
-│   │   └── shell.css        # Giao diện thanh Header, nút Back Hub, bảng màu chuẩn
+│   │   └── shell.css        # Common top header, color variables, typography
 │   └── js/
-│       ├── audio.js         # Bộ phát âm thanh Web Audio API siêu nhẹ
-│       └── navigation.js    # Logic điều hướng và quay về Hub
+│       ├── audio.js         # Lightweight Web Audio API synthesizer
+│       └── navigation.js    # Shell navigation and hub redirect logic
 └── games/
-    ├── caro/                # Game 1: Caro 5 ô thẳng hàng (DOM Grid + AI Bot)
+    ├── caro/                # Game 1: Caro (Gomoku) 15x15 (DOM Grid + AI Bot)
     │   ├── index.html
     │   ├── style.css
     │   └── game.js
-    ├── 2048/                # Game 2: 2048 Classic (Dự kiến)
-    ├── mini-sudoku/         # Game 3: Mini Sudoku 6x6 (Dự kiến)
-    ├── block-blast/         # Game 4: Block Blast (Dự kiến)
-    ├── tetris/              # Game 5: Tetris xếp gạch (Dự kiến)
-    └── water-sort/          # Game 6: Water Sort rót nước (Dự kiến)
+    └── block-blast/         # Game 2: Block Blast 8x8 (Canvas 2D + Combos + Sound)
+        ├── index.html
+        ├── style.css
+        └── game.js
 ```
 
 ---
 
-## 4. Đặc tả Game 1: Caro (Gomoku)
+## 4. Game Specifications
 
-* **Kích thước bàn cờ:** 15x15 ô, có đánh dấu các điểm sao chuẩn (Tengen & Star points).
-* **Luật chơi:** Luật tự do (Gomoku) — Cứ đủ 5 ô thẳng hàng (ngang, dọc, chéo) là thắng ngay.
-* **Lượt đi:** Người chơi (X) luôn đi trước mặc định.
-* **Chế độ chơi:**
-  1. `Người vs Người (PvP)`: Luân phiên đi nước trên cùng thiết bị.
-  2. `Người vs Máy (AI Bot)`: 3 mức độ lựa chọn (**Dễ**, **Vừa**, **Khó**) với thuật toán đánh giá thế cờ công/thủ thông minh.
-* **Tính năng:**
-  * **Đi lại (Undo):** Cho phép hoàn tác nước đi.
-  * **Pan & Zoom:** Hỗ trợ vuốt kéo, phóng to thu nhỏ bằng 2 ngón tay hoặc nút điều khiển trên mobile.
-  * **Âm thanh:** Tự tổng hợp âm thanh nước đi, chiến thắng, undo bằng Web Audio API.
+### Game 1: Caro (Gomoku)
+* **Board Dimensions:** 15x15 grid with standard star points (Tengen & 8 Star marks).
+* **Rules:** Free Gomoku — Any contiguous row of 5 stones (horizontal, vertical, or diagonal) wins immediately.
+* **Turns:** Player (X) moves first by default.
+* **Modes:**
+  1. `Player vs Player (Local PvP)`: Shared device alternating turns.
+  2. `Player vs Bot (AI)`: 3 difficulty levels (**Easy**, **Medium**, **Hard**) with heuristic board evaluation.
+* **Features:**
+  * Undo support.
+  * Pan & Zoom controls for mobile screens.
+  * Procedural move and victory audio via Web Audio API.
+
+### Game 2: Block Blast
+* **Board Dimensions:** 8x8 grid.
+* **Rules:** Place polyomino blocks from the dock of 3 onto the board. Clearing any complete horizontal row or vertical column blasts the blocks and scores points.
+* **Modes:** Solo Endless High-Score mode with combo multipliers.
+* **Features:**
+  * Canvas 2D engine with 60 FPS particle blast effects and subtle screen shake.
+  * Pointer & touch drag-and-drop with ergonomic thumb offset, plus tap-to-place accessibility.
+  * Undo support via Vigga header.
+  * Persistent high score in `localStorage` (`vigga_block-blast_best_score`).
+  * Procedural move, combo blast, and game over sounds via `ViggaAudio`.
 
 ---
 
-## 5. Hướng dẫn Deploy lên Vercel
+## 5. Automated Game Development Workflow
 
-1. **Khởi tạo Git và Commit (tại thư mục gốc `vigga-games`):**
-   ```bash
-   cd ~/Desktop/vigga-games
-   git init
-   git add .
-   git commit -m "feat: init vigga-games with shared shell and caro game"
-   ```
+New games can be created using the autonomous `.agents/skills/create-game` workflow:
 
-2. **Deploy lên Vercel:**
+1. **Trigger:** Invoke `create game` or `/create-game`.
+2. **Context Discovery:** The agent automatically reads `README.md` first.
+3. **Structured Scoping:** The agent conducts a strict one-by-one interview covering:
+   - Pitch & Genre.
+   - Core Loop & Win/Loss Conditions.
+   - Game Modes & Mechanics (Bot, PvP, Undo, Scores).
+   - Controls & Engine (DOM vs Canvas).
+4. **Implementation:** Generates standard `games/<game-id>/` files adhering to 100% English UI and code conventions.
+5. **Launch Registration:** Automatically appends debugging configurations to `.vscode/launch.json`.
+6. **Automated Self-Play:** The agent runs and simulates gameplay to verify error-free execution before delivery.
+
+---
+
+## 6. Deployment Instructions
+
+1. **Deploy to Vercel:**
    ```bash
    make deploy
+   # Or directly:
+   npx vercel --prod
    ```
-   * Hoặc: `npx vercel --prod`
-   * Link trực tiếp game Caro: `https://<ten-project>.vercel.app/games/caro/`
 
-3. **Cập nhật link vào Hub:**
-   * Mở file `games.js` của `vigga.netlify.app`, cập nhật link `https://vigga-games.vercel.app/games/caro/` vào mục Game Caro.
-
+2. **Link Verification:**
+   Test the deployed route at `https://<project-id>.vercel.app/games/<game-id>/` and link it to the central Game Hub.
