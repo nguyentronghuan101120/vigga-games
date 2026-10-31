@@ -30,7 +30,7 @@
       const updateIcon = () => {
         const muted = audio.isMuted();
         soundBtn.innerHTML = getMuteSvg(muted);
-        soundBtn.title = muted ? 'Bật âm thanh' : 'Tắt âm thanh';
+        soundBtn.title = muted ? 'Unmute Audio' : 'Mute Audio';
         soundBtn.setAttribute('aria-label', soundBtn.title);
       };
 

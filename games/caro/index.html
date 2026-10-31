@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Cờ Caro (Gomoku) — Vigga Mini-Games</title>
+  <title>Caro (Gomoku) — Vigga Mini-Games</title>
   <link rel="stylesheet" href="../../shared/css/shell.css">
   <link rel="stylesheet" href="style.css">
 </head>
@@ -11,25 +11,25 @@
   <!-- Header Shell -->
   <header class="shell-header">
     <div class="shell-header-left">
-      <a id="btn-hub" class="shell-btn text-label" href="https://vigga.netlify.app/" title="Quay lại Game Hub">
+      <a id="btn-hub" class="shell-btn text-label" href="https://vigga.netlify.app/" title="Back to Game Hub">
         <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"></polyline></svg>
         <span>Game Hub</span>
       </a>
-      <button id="btn-undo" class="shell-btn text-label" title="Hoàn tác nước đi (Undo)">
+      <button id="btn-undo" class="shell-btn text-label" title="Undo Move">
         <svg viewBox="0 0 24 24"><path d="M3 7v6h6"></path><path d="M21 17a9 9 0 0 0-9-9 9 9 0 0 0-6 2.3L3 13"></path></svg>
-        <span>Đi lại</span>
+        <span>Undo</span>
       </button>
     </div>
 
     <div class="shell-header-center">
-      <span>Cờ Caro</span>
+      <span>Caro (Gomoku)</span>
     </div>
 
     <div class="shell-header-right">
-      <button id="btn-sound" class="shell-btn icon-only" title="Bật/Tắt âm thanh"></button>
-      <button id="btn-restart" class="shell-btn primary" title="Chơi lại ván mới">
+      <button id="btn-sound" class="shell-btn icon-only" title="Toggle Sound"></button>
+      <button id="btn-restart" class="shell-btn primary" title="New Game">
         <svg viewBox="0 0 24 24"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"></path></svg>
-        <span>Ván mới</span>
+        <span>New Game</span>
       </button>
     </div>
   </header>
@@ -37,30 +37,30 @@
   <!-- Controls Sub-Bar -->
   <div class="sub-bar">
     <div class="sub-bar-left">
-      <div class="pill-group" role="group" aria-label="Chế độ chơi">
-        <button id="mode-pve" class="pill-btn active">Với Máy</button>
-        <button id="mode-pvp" class="pill-btn">2 Người</button>
+      <div class="pill-group" role="group" aria-label="Game Mode">
+        <button id="mode-pve" class="pill-btn active">vs AI</button>
+        <button id="mode-pvp" class="pill-btn">2 Players</button>
       </div>
 
-      <div id="diff-selector" class="pill-group" role="group" aria-label="Độ khó của máy">
-        <button data-diff="easy" class="pill-btn">Dễ</button>
-        <button data-diff="medium" class="pill-btn active">Vừa</button>
-        <button data-diff="hard" class="pill-btn">Khó</button>
+      <div id="diff-selector" class="pill-group" role="group" aria-label="AI Difficulty">
+        <button data-diff="easy" class="pill-btn">Easy</button>
+        <button data-diff="medium" class="pill-btn active">Medium</button>
+        <button data-diff="hard" class="pill-btn">Hard</button>
       </div>
     </div>
 
     <div class="sub-bar-center">
       <div id="status-turn" class="turn-badge turn-x">
         <span class="turn-dot"></span>
-        <span class="turn-text">Lượt của X</span>
+        <span class="turn-text">Player X's Turn</span>
       </div>
     </div>
 
     <div class="sub-bar-right">
       <div class="zoom-controls">
-        <button id="btn-zoom-out" class="zoom-btn" title="Thu nhỏ">−</button>
-        <button id="btn-zoom-reset" class="zoom-btn" title="Đặt lại góc nhìn">100%</button>
-        <button id="btn-zoom-in" class="zoom-btn" title="Phóng to">+</button>
+        <button id="btn-zoom-out" class="zoom-btn" title="Zoom Out">−</button>
+        <button id="btn-zoom-reset" class="zoom-btn" title="Reset View">100%</button>
+        <button id="btn-zoom-in" class="zoom-btn" title="Zoom In">+</button>
       </div>
     </div>
   </div>
@@ -76,11 +76,11 @@
   <div id="winner-modal" class="modal-backdrop hidden">
     <div class="modal-card">
       <div class="modal-icon" id="modal-icon">🏆</div>
-      <h2 id="modal-title" class="modal-title">Chiến thắng!</h2>
-      <p id="modal-msg" class="modal-msg">Người chơi X đã xếp đủ 5 quân cờ liên tiếp.</p>
+      <h2 id="modal-title" class="modal-title">Victory!</h2>
+      <p id="modal-msg" class="modal-msg">Player X connected 5 stones in a row.</p>
       <div class="modal-actions">
-        <button id="modal-btn-restart" class="shell-btn primary">Chơi ván tiếp</button>
-        <button id="modal-btn-close" class="shell-btn">Xem lại thế cờ</button>
+        <button id="modal-btn-restart" class="shell-btn primary">Play Again</button>
+        <button id="modal-btn-close" class="shell-btn">Review Board</button>
       </div>
     </div>
   </div>
@@ -90,4 +90,3 @@
   <script src="game.js"></script>
 </body>
 </html>
-

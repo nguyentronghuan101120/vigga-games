@@ -180,9 +180,9 @@
   function updateTurnIndicator() {
     turnBadge.className = `turn-badge turn-${currentPlayer.toLowerCase()}`;
     if (gameMode === 'pve' && currentPlayer === 'O') {
-      turnText.textContent = 'Máy đang nghĩ...';
+      turnText.textContent = 'AI is thinking...';
     } else {
-      turnText.textContent = `Lượt của ${currentPlayer}`;
+      turnText.textContent = `${currentPlayer}'s Turn`;
     }
   }
 
@@ -243,14 +243,14 @@
 
     if (winner === 'DRAW') {
       modalIcon.textContent = '🤝';
-      modalTitle.textContent = 'Ván cờ Hòa!';
-      modalMsg.textContent = 'Hai bên bất phân thắng bại trên toàn bàn cờ.';
+      modalTitle.textContent = 'Game Draw!';
+      modalMsg.textContent = 'The board is full with no winner.';
       if (window.ViggaAudio) window.ViggaAudio.playDraw();
     } else {
       const isPlayerWin = (gameMode === 'pve' && winner === 'X') || (gameMode === 'pvp');
       modalIcon.textContent = isPlayerWin ? '🏆' : '🤖';
-      modalTitle.textContent = winner === 'X' ? 'Người chơi X Thắng!' : (gameMode === 'pve' ? 'Máy (O) Thắng!' : 'Người chơi O Thắng!');
-      modalMsg.textContent = `Đã xếp được ${winLine.length} quân cờ thẳng hàng thành công.`;
+      modalTitle.textContent = winner === 'X' ? 'Player X Wins!' : (gameMode === 'pve' ? 'AI (O) Wins!' : 'Player O Wins!');
+      modalMsg.textContent = `Connected ${winLine.length} stones in a row!`;
       if (window.ViggaAudio) window.ViggaAudio.playWin();
     }
 
