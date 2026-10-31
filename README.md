@@ -94,10 +94,10 @@ vigga-games/
 
 2. **Deploy lên Vercel:**
    ```bash
-   npx vercel --prod
+   make deploy
    ```
-   * Link dự án: `https://vigga-games.vercel.app`
-   * Link trực tiếp game Caro: `https://vigga-games.vercel.app/games/caro/`
+   * Hoặc: `npx vercel --prod`
+   * Link trực tiếp game Caro: `https://<ten-project>.vercel.app/games/caro/`
 
 3. **Cập nhật link vào Hub:**
    * Mở file `games.js` của `vigga.netlify.app`, cập nhật link `https://vigga-games.vercel.app/games/caro/` vào mục Game Caro.
