@@ -1,12 +1,6 @@
-/* Block Blast Game Styles */
-:root {
-  --board-bg: #1e293b;
-  --board-cell-empty: #334155;
-  --board-cell-border: rgba(255, 255, 255, 0.05);
-}
-
+/* Block Blast 3D Cartoon Styles */
 body {
-  background-color: var(--bg-color);
+  background: radial-gradient(circle at 50% 25%, #1d4ed8 0%, #172554 60%, #0f172a 100%);
   touch-action: none;
   -webkit-user-select: none;
   user-select: none;
@@ -16,6 +10,18 @@ body {
   height: 100dvh;
   margin: 0;
   overflow: hidden;
+  font-family: var(--font-family);
+}
+
+.game-logo {
+  background: linear-gradient(180deg, #fef08a 0%, #f59e0b 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 900;
+  font-size: 1.25rem;
+  letter-spacing: 0.05em;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.4));
 }
 
 .game-wrapper {
@@ -24,61 +30,79 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  padding: 8px 16px 12px;
-  max-width: 520px;
+  padding: 6px 12px 10px;
+  max-width: 500px;
   margin: 0 auto;
   width: 100%;
   box-sizing: border-box;
 }
 
-/* Stats HUD */
+/* Cartoon Stats HUD */
 .hud-bar {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   width: 100%;
-  padding: 4px 8px 8px;
+  padding: 4px 6px;
   position: relative;
+  min-height: 52px;
 }
 
-.stat-card {
+.best-card {
+  position: absolute;
+  left: 8px;
   display: flex;
-  flex-direction: column;
   align-items: center;
-  background: var(--surface-color);
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius);
-  padding: 6px 16px;
-  min-width: 80px;
-  box-shadow: var(--shadow-sm);
+  gap: 6px;
+  background: rgba(15, 23, 42, 0.65);
+  border: 2px solid rgba(255, 255, 255, 0.12);
+  border-radius: 9999px;
+  padding: 6px 14px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.2);
 }
 
-.stat-label {
-  font-size: 0.7rem;
-  font-weight: 700;
-  letter-spacing: 0.05em;
-  color: var(--text-muted);
+.crown-icon {
+  font-size: 1.2rem;
+  filter: drop-shadow(0 2px 4px rgba(245, 158, 11, 0.6));
 }
 
-.stat-value {
-  font-size: 1.35rem;
+.best-number {
+  font-size: 1.25rem;
   font-weight: 800;
-  color: var(--text-main);
-  line-height: 1.2;
+  color: #fde047;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  line-height: 1;
+}
+
+.score-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.score-number {
+  font-size: 2.5rem;
+  font-weight: 900;
+  color: #ffffff;
+  letter-spacing: 0.02em;
+  text-shadow: 0 4px 12px rgba(0, 0, 0, 0.5), 0 2px 0 #1e3a8a;
+  line-height: 1;
+  transition: transform 0.1s ease;
 }
 
 .combo-pill {
   position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  background: linear-gradient(135deg, #f59e0b, #ef4444);
+  right: 8px;
+  background: linear-gradient(180deg, #ffedd5 0%, #f97316 40%, #ea580c 100%);
   color: #ffffff;
-  font-size: 0.85rem;
-  font-weight: 800;
-  letter-spacing: 0.05em;
-  padding: 4px 14px;
+  font-size: 0.9rem;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  padding: 6px 14px;
   border-radius: 9999px;
-  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.35);
+  border: 2px solid #ffedd5;
+  box-shadow: 0 4px 12px rgba(234, 88, 12, 0.5), 0 3px 0 #9a3412;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
   animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
@@ -87,8 +111,8 @@ body {
 }
 
 @keyframes popIn {
-  0% { transform: translateX(-50%) scale(0.6); opacity: 0; }
-  100% { transform: translateX(-50%) scale(1); opacity: 1; }
+  0% { transform: scale(0.5); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
 }
 
 /* Canvas Area */
@@ -116,13 +140,13 @@ body {
   cursor: grabbing;
 }
 
-/* Game Over Modal */
+/* 3D Cartoon Game Over Modal */
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(15, 23, 42, 0.65);
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
+  background: rgba(10, 15, 30, 0.75);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -136,28 +160,36 @@ body {
 }
 
 .modal-card {
-  background: var(--surface-color);
-  border-radius: 16px;
-  padding: 28px 24px;
+  background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
+  border-radius: 24px;
+  padding: 30px 24px;
   width: 100%;
   max-width: 360px;
   text-align: center;
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 10px 10px -5px rgba(0, 0, 0, 0.08);
-  border: 1px solid var(--border-color);
-  animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6), 0 0 0 3px rgba(255, 255, 255, 0.15);
+  animation: bounceUp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.modal-mascot {
+  font-size: 3rem;
+  margin-bottom: 8px;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.4));
 }
 
 .modal-title {
-  font-size: 1.6rem;
-  font-weight: 800;
-  color: var(--text-main);
-  margin-bottom: 6px;
+  font-size: 2rem;
+  font-weight: 900;
+  color: #ffffff;
+  margin-bottom: 4px;
+  letter-spacing: 0.04em;
+  text-shadow: 0 3px 6px rgba(0, 0, 0, 0.5);
 }
 
 .modal-subtitle {
-  font-size: 0.9rem;
-  color: var(--text-muted);
-  margin-bottom: 20px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #94a3b8;
+  margin-bottom: 22px;
 }
 
 .modal-scores {
@@ -168,49 +200,81 @@ body {
 
 .modal-score-item {
   flex: 1;
-  background: var(--bg-color);
-  border: 1px solid var(--border-color);
-  border-radius: 12px;
-  padding: 12px 8px;
+  background: #1e293b;
+  border: 2px solid #334155;
+  border-radius: 16px;
+  padding: 14px 8px;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.modal-score-item.highlight {
+  border-color: #f59e0b;
+  background: linear-gradient(180deg, rgba(245, 158, 11, 0.15) 0%, rgba(30, 41, 59, 1) 100%);
 }
 
 .score-label {
   display: block;
-  font-size: 0.75rem;
-  font-weight: 600;
-  color: var(--text-muted);
+  font-size: 0.8rem;
+  font-weight: 800;
+  color: #94a3b8;
+  letter-spacing: 0.05em;
   margin-bottom: 4px;
 }
 
-.score-number {
-  font-size: 1.5rem;
-  font-weight: 800;
-  color: var(--text-main);
+.modal-score-item.highlight .score-label {
+  color: #fde047;
+}
+
+.modal-num {
+  font-size: 1.8rem;
+  font-weight: 900;
+  color: #ffffff;
+  line-height: 1.1;
 }
 
 .high-score-badge {
-  background: #fef3c7;
-  color: #b45309;
-  font-size: 0.8rem;
-  font-weight: 800;
-  padding: 6px 12px;
-  border-radius: 8px;
-  border: 1px solid #fde68a;
+  background: linear-gradient(180deg, #fef08a 0%, #f59e0b 100%);
+  color: #78350f;
+  font-size: 0.9rem;
+  font-weight: 900;
+  padding: 8px 16px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4);
   margin-bottom: 20px;
   display: inline-block;
-  animation: pulse 1.5s infinite;
+  animation: pulse 1.2s infinite ease-in-out;
 }
 
 .high-score-badge.hidden {
   display: none;
 }
 
-.btn-large {
+/* Bubbly Cartoon Large Button */
+.cartoon-btn-large {
   width: 100%;
-  height: 48px;
-  font-size: 1rem;
-  font-weight: 600;
-  gap: 8px;
+  height: 52px;
+  border-radius: 16px;
+  border: 2px solid #86efac;
+  background: linear-gradient(180deg, #4ade80 0%, #16a34a 100%);
+  color: #ffffff;
+  font-family: var(--font-family);
+  font-size: 1.2rem;
+  font-weight: 900;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  box-shadow: 0 6px 0 #15803d, 0 8px 16px rgba(22, 163, 74, 0.4);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  transition: all 0.1s ease;
+  transform: translateY(0);
+}
+
+.cartoon-btn-large:hover {
+  background: linear-gradient(180deg, #86efac 0%, #16a34a 100%);
+}
+
+.cartoon-btn-large:active {
+  transform: translateY(4px);
+  box-shadow: 0 2px 0 #15803d, 0 4px 8px rgba(22, 163, 74, 0.3);
 }
 
 @keyframes fadeIn {
@@ -218,13 +282,13 @@ body {
   to { opacity: 1; }
 }
 
-@keyframes slideUp {
-  from { transform: translateY(20px) scale(0.96); opacity: 0; }
-  to { transform: translateY(0) scale(1); opacity: 1; }
+@keyframes bounceUp {
+  0% { transform: scale(0.6) translateY(40px); opacity: 0; }
+  70% { transform: scale(1.04) translateY(-8px); opacity: 1; }
+  100% { transform: scale(1) translateY(0); opacity: 1; }
 }
 
 @keyframes pulse {
   0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.05); }
+  50% { transform: scale(1.06); }
 }
-

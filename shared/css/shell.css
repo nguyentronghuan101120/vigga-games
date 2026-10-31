@@ -1,20 +1,25 @@
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700;800&display=swap');
+
 :root {
-  --bg-color: #f8fafc;
-  --surface-color: #ffffff;
-  --surface-hover: #f1f5f9;
-  --text-main: #0f172a;
-  --text-muted: #64748b;
-  --border-color: #e2e8f0;
-  --primary: #3b82f6;
-  --primary-hover: #2563eb;
-  --accent: #10b981;
+  --font-family: 'Fredoka', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --bg-color: #0f172a;
+  --surface-color: #1e293b;
+  --surface-hover: #334155;
+  --text-main: #ffffff;
+  --text-muted: #94a3b8;
+  --border-color: #334155;
+  --primary: #38bdf8;
+  --primary-hover: #0ea5e9;
+  --primary-shadow: #0284c7;
+  --accent: #22c55e;
   --danger: #ef4444;
-  --x-color: #2563eb;
-  --o-color: #ea580c;
+  --x-color: #38bdf8;
+  --o-color: #f97316;
   --cell-size: 34px;
-  --radius: 10px;
-  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.08);
+  --radius: 12px;
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.15);
+  --shadow-md: 0 4px 10px rgba(0, 0, 0, 0.25);
+  --btn-shadow: 0 3px 0 #0f172a;
 }
 
 * {
@@ -25,7 +30,7 @@
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-family: var(--font-family);
   background-color: var(--bg-color);
   color: var(--text-main);
   min-height: 100vh;
@@ -39,14 +44,14 @@ body {
 .shell-header {
   position: relative;
   z-index: 20;
-  height: 56px;
+  height: 58px;
   background: var(--surface-color);
-  border-bottom: 1px solid var(--border-color);
+  border-bottom: 2px solid var(--border-color);
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 16px;
-  box-shadow: var(--shadow-sm);
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.2);
 }
 
 .shell-header-left,
@@ -57,12 +62,14 @@ body {
 }
 
 .shell-header-center {
-  font-size: 1.1rem;
-  font-weight: 700;
-  color: var(--text-main);
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: 0.03em;
   display: flex;
   align-items: center;
   gap: 6px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .shell-btn {
@@ -70,48 +77,58 @@ body {
   align-items: center;
   justify-content: center;
   gap: 6px;
-  height: 38px;
-  padding: 0 12px;
+  height: 40px;
+  padding: 0 14px;
   border-radius: var(--radius);
-  border: 1px solid var(--border-color);
-  background: var(--surface-color);
-  color: var(--text-main);
-  font-size: 0.9rem;
-  font-weight: 500;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: #334155;
+  color: #ffffff;
+  font-family: var(--font-family);
+  font-size: 0.95rem;
+  font-weight: 700;
   cursor: pointer;
-  transition: all 0.15s ease;
+  transition: all 0.1s ease;
   text-decoration: none;
+  box-shadow: 0 3px 0 #0f172a;
+  transform: translateY(0);
 }
 
 .shell-btn:hover {
-  background: var(--surface-hover);
-  border-color: #cbd5e1;
+  background: #475569;
 }
 
 .shell-btn:active {
-  transform: scale(0.97);
+  transform: translateY(2px);
+  box-shadow: 0 1px 0 #0f172a;
 }
 
 .shell-btn.icon-only {
-  width: 38px;
+  width: 40px;
   padding: 0;
 }
 
 .shell-btn.primary {
-  background: var(--primary);
+  background: linear-gradient(180deg, #38bdf8 0%, #0284c7 100%);
   color: #ffffff;
-  border-color: var(--primary);
+  border-color: #7dd3fc;
+  box-shadow: 0 3px 0 #0369a1;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
 }
 
 .shell-btn.primary:hover {
-  background: var(--primary-hover);
+  background: linear-gradient(180deg, #60a5fa 0%, #0369a1 100%);
+}
+
+.shell-btn.primary:active {
+  transform: translateY(2px);
+  box-shadow: 0 1px 0 #0369a1;
 }
 
 .shell-btn svg {
-  width: 18px;
-  height: 18px;
+  width: 20px;
+  height: 20px;
   stroke: currentColor;
-  stroke-width: 2;
+  stroke-width: 2.2;
   fill: none;
   stroke-linecap: round;
   stroke-linejoin: round;
@@ -134,4 +151,3 @@ body {
     display: none;
   }
 }
-

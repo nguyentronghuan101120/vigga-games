@@ -1,5 +1,5 @@
 /**
- * Block Blast — Pure Vanilla ES6 HTML5 Canvas Mini-Game
+ * Block Blast — Vibrant 3D Cartoon / Casual Toy Mini-Game
  * Vigga Mini-Games Collection
  */
 
@@ -10,46 +10,59 @@
   const GRID_SIZE = 8;
   const STORAGE_KEY_BEST = 'vigga_block-blast_best_score';
 
+  // Juicy Cartoon Toy Colors (Vibrant Saturated Candy Palette)
+  const PALETTE = {
+    yellow: '#ffb703',   // Radiant Golden Amber
+    purple: '#a855f7',   // Juicy Jelly Grape
+    red:    '#ef233c',   // Candy Apple Red
+    orange: '#fb923c',   // Sweet Tangerine
+    green:  '#22c55e',   // Emerald Lime
+    blue:   '#0284c7',   // Royal Ocean Blue
+    cyan:   '#06b6d4',   // Electric Cyan
+    pink:   '#ec4899',   // Bubblegum Pink
+    indigo: '#6366f1'    // Deep Indigo
+  };
+
   // Polyomino Shapes Definitions
   const SHAPES = [
     // 1-block
-    { id: 'dot', matrix: [[1]], color: '#38bdf8' },
+    { id: 'dot', matrix: [[1]], color: PALETTE.cyan },
 
     // 2-blocks
-    { id: 'h2', matrix: [[1, 1]], color: '#34d399' },
-    { id: 'v2', matrix: [[1], [1]], color: '#34d399' },
+    { id: 'h2', matrix: [[1, 1]], color: PALETTE.green },
+    { id: 'v2', matrix: [[1], [1]], color: PALETTE.green },
 
     // 3-blocks
-    { id: 'h3', matrix: [[1, 1, 1]], color: '#fbbf24' },
-    { id: 'v3', matrix: [[1], [1], [1]], color: '#fbbf24' },
-    { id: 'corner2_tl', matrix: [[1, 1], [1, 0]], color: '#f43f5e' },
-    { id: 'corner2_tr', matrix: [[1, 1], [0, 1]], color: '#f43f5e' },
-    { id: 'corner2_bl', matrix: [[1, 0], [1, 1]], color: '#f43f5e' },
-    { id: 'corner2_br', matrix: [[0, 1], [1, 1]], color: '#f43f5e' },
+    { id: 'h3', matrix: [[1, 1, 1]], color: PALETTE.yellow },
+    { id: 'v3', matrix: [[1], [1], [1]], color: PALETTE.yellow },
+    { id: 'corner2_tl', matrix: [[1, 1], [1, 0]], color: PALETTE.red },
+    { id: 'corner2_tr', matrix: [[1, 1], [0, 1]], color: PALETTE.red },
+    { id: 'corner2_bl', matrix: [[1, 0], [1, 1]], color: PALETTE.red },
+    { id: 'corner2_br', matrix: [[0, 1], [1, 1]], color: PALETTE.red },
 
     // 4-blocks (Tetrominoes)
-    { id: 'sq2', matrix: [[1, 1], [1, 1]], color: '#fb7185' },
-    { id: 'h4', matrix: [[1, 1, 1, 1]], color: '#60a5fa' },
-    { id: 'v4', matrix: [[1], [1], [1], [1]], color: '#60a5fa' },
-    { id: 't_up', matrix: [[0, 1, 0], [1, 1, 1]], color: '#a855f7' },
-    { id: 't_down', matrix: [[1, 1, 1], [0, 1, 0]], color: '#a855f7' },
-    { id: 'l_norm', matrix: [[1, 0], [1, 0], [1, 1]], color: '#fb923c' },
-    { id: 'l_inv', matrix: [[0, 1], [0, 1], [1, 1]], color: '#fb923c' },
-    { id: 'j_norm', matrix: [[1, 1], [1, 0], [1, 0]], color: '#fb923c' },
-    { id: 'j_inv', matrix: [[1, 1], [0, 1], [0, 1]], color: '#fb923c' },
-    { id: 's_shape', matrix: [[0, 1, 1], [1, 1, 0]], color: '#2dd4bf' },
-    { id: 'z_shape', matrix: [[1, 1, 0], [0, 1, 1]], color: '#2dd4bf' },
+    { id: 'sq2', matrix: [[1, 1], [1, 1]], color: PALETTE.orange },
+    { id: 'h4', matrix: [[1, 1, 1, 1]], color: PALETTE.blue },
+    { id: 'v4', matrix: [[1], [1], [1], [1]], color: PALETTE.blue },
+    { id: 't_up', matrix: [[0, 1, 0], [1, 1, 1]], color: PALETTE.purple },
+    { id: 't_down', matrix: [[1, 1, 1], [0, 1, 0]], color: PALETTE.purple },
+    { id: 'l_norm', matrix: [[1, 0], [1, 0], [1, 1]], color: PALETTE.pink },
+    { id: 'l_inv', matrix: [[0, 1], [0, 1], [1, 1]], color: PALETTE.pink },
+    { id: 'j_norm', matrix: [[1, 1], [1, 0], [1, 0]], color: PALETTE.indigo },
+    { id: 'j_inv', matrix: [[1, 1], [0, 1], [0, 1]], color: PALETTE.indigo },
+    { id: 's_shape', matrix: [[0, 1, 1], [1, 1, 0]], color: PALETTE.cyan },
+    { id: 'z_shape', matrix: [[1, 1, 0], [0, 1, 1]], color: PALETTE.cyan },
 
     // 5-blocks
-    { id: 'h5', matrix: [[1, 1, 1, 1, 1]], color: '#818cf8' },
-    { id: 'v5', matrix: [[1], [1], [1], [1], [1]], color: '#818cf8' },
-    { id: 'corner3_tl', matrix: [[1, 1, 1], [1, 0, 0], [1, 0, 0]], color: '#ec4899' },
-    { id: 'corner3_tr', matrix: [[1, 1, 1], [0, 0, 1], [0, 0, 1]], color: '#ec4899' },
-    { id: 'corner3_bl', matrix: [[1, 0, 0], [1, 0, 0], [1, 1, 1]], color: '#ec4899' },
-    { id: 'corner3_br', matrix: [[0, 0, 1], [0, 0, 1], [1, 1, 1]], color: '#ec4899' },
+    { id: 'h5', matrix: [[1, 1, 1, 1, 1]], color: PALETTE.blue },
+    { id: 'v5', matrix: [[1], [1], [1], [1], [1]], color: PALETTE.blue },
+    { id: 'corner3_tl', matrix: [[1, 1, 1], [1, 0, 0], [1, 0, 0]], color: PALETTE.pink },
+    { id: 'corner3_tr', matrix: [[1, 1, 1], [0, 0, 1], [0, 0, 1]], color: PALETTE.pink },
+    { id: 'corner3_bl', matrix: [[1, 0, 0], [1, 0, 0], [1, 1, 1]], color: PALETTE.pink },
+    { id: 'corner3_br', matrix: [[0, 0, 1], [0, 0, 1], [1, 1, 1]], color: PALETTE.pink },
 
-    // 9-block (Rare big square)
-    { id: 'sq3', matrix: [[1, 1, 1], [1, 1, 1], [1, 1, 1]], color: '#c084fc' }
+    // 9-block (Rare challenge block)
+    { id: 'sq3', matrix: [[1, 1, 1], [1, 1, 1], [1, 1, 1]], color: PALETTE.purple }
   ];
 
   // DOM Elements
@@ -77,12 +90,13 @@
   let isGameOver = false;
   let historyStack = [];
 
-  // Visual Effects
+  // Cartoon Visual Effects
   let particles = [];
+  let starSparkles = [];
   let floatingTexts = [];
   let screenShake = 0;
 
-  // Layout Metrics (computed dynamically on resize)
+  // Layout Metrics
   let metrics = {
     width: 0,
     height: 0,
@@ -91,7 +105,7 @@
     boardY: 0,
     boardSize: 0,
     cellSize: 0,
-    cellGap: 3,
+    cellGap: 4,
     dockY: 0,
     dockHeight: 0,
     dockSlots: []
@@ -104,11 +118,11 @@
     piece: null,
     pointerX: 0,
     pointerY: 0,
-    touchOffsetY: 0, // Lift piece above finger on mobile touch
+    touchOffsetY: 0,
     hoverRow: -1,
     hoverCol: -1,
     canPlaceHover: false,
-    selectedSlot: -1 // For tap-to-select mode
+    selectedSlot: -1
   };
 
   // Helper Functions
@@ -125,7 +139,6 @@
   }
 
   function saveHistoryState() {
-    // Keep maximum 5 undo steps
     if (historyStack.length >= 5) {
       historyStack.shift();
     }
@@ -140,9 +153,10 @@
 
   function updateUndoButtonState() {
     if (btnUndo) {
-      btnUndo.disabled = historyStack.length === 0 || isGameOver;
-      btnUndo.style.opacity = (historyStack.length === 0 || isGameOver) ? '0.45' : '1';
-      btnUndo.style.pointerEvents = (historyStack.length === 0 || isGameOver) ? 'none' : 'auto';
+      const isDisabled = historyStack.length === 0 || isGameOver;
+      btnUndo.disabled = isDisabled;
+      btnUndo.style.opacity = isDisabled ? '0.4' : '1';
+      btnUndo.style.pointerEvents = isDisabled ? 'none' : 'auto';
     }
   }
 
@@ -154,7 +168,7 @@
     score = previous.score;
     combo = previous.combo;
 
-    currentScoreEl.textContent = score;
+    updateScoreDisplay();
     updateComboDisplay();
     updateUndoButtonState();
 
@@ -163,14 +177,14 @@
     }
   }
 
-  // Sound Synthesizer Extensions
+  // Audio synthesizers for juicy sound effects
   function playBlastSound(comboCount) {
     if (window.ViggaAudio && window.ViggaAudio.isMuted()) return;
     try {
       const AudioCtx = window.AudioContext || window.webkitAudioContext;
       if (!AudioCtx) return;
       const actx = new AudioCtx();
-      const baseFreq = 260 + Math.min(comboCount * 60, 480);
+      const baseFreq = 300 + Math.min(comboCount * 70, 560);
       const notes = [baseFreq, baseFreq * 1.25, baseFreq * 1.5, baseFreq * 2];
 
       notes.forEach((freq, idx) => {
@@ -178,12 +192,12 @@
         const gain = actx.createGain();
         osc.type = 'triangle';
         osc.frequency.setValueAtTime(freq, actx.currentTime + idx * 0.04);
-        gain.gain.setValueAtTime(0.18, actx.currentTime + idx * 0.04);
-        gain.gain.exponentialRampToValueAtTime(0.001, actx.currentTime + idx * 0.04 + 0.22);
+        gain.gain.setValueAtTime(0.2, actx.currentTime + idx * 0.04);
+        gain.gain.exponentialRampToValueAtTime(0.001, actx.currentTime + idx * 0.04 + 0.25);
         osc.connect(gain);
         gain.connect(actx.destination);
         osc.start(actx.currentTime + idx * 0.04);
-        osc.stop(actx.currentTime + idx * 0.04 + 0.24);
+        osc.stop(actx.currentTime + idx * 0.04 + 0.26);
       });
     } catch (e) {
       if (window.ViggaAudio && typeof window.ViggaAudio.playMove === 'function') {
@@ -192,7 +206,6 @@
     }
   }
 
-  // Check Placement Rules
   function canPlacePiece(pieceMatrix, startRow, startCol, targetBoard = board) {
     const numRows = pieceMatrix.length;
     const numCols = pieceMatrix[0].length;
@@ -226,7 +239,6 @@
     return false;
   }
 
-  // Generate 3 Random Pieces with Fair Play Guarantee
   function generateNewDock() {
     const newDock = [];
     for (let i = 0; i < 3; i++) {
@@ -238,10 +250,9 @@
       });
     }
 
-    // Fair guarantee: ensure at least one piece can fit on current board
+    // Fair guarantee: at least one piece can fit
     const hasValidMove = newDock.some(p => canPieceFitAnywhere(p.matrix, board));
     if (!hasValidMove) {
-      // Find a simple shape that fits
       const simpleShapes = SHAPES.filter(s => s.id === 'dot' || s.id === 'h2' || s.id === 'v2');
       for (const s of simpleShapes) {
         if (canPieceFitAnywhere(s.matrix, board)) {
@@ -254,14 +265,12 @@
     dock = newDock;
   }
 
-  // Check if Dock is Empty or No Moves Left
   function checkGameStateAfterMove() {
     const isDockEmpty = dock.every(p => p === null);
     if (isDockEmpty) {
       generateNewDock();
     }
 
-    // Check game over
     const activePieces = dock.filter(p => p !== null);
     const hasMove = activePieces.some(p => canPieceFitAnywhere(p.matrix, board));
 
@@ -270,19 +279,16 @@
     }
   }
 
-  // Line Clear Detection & Blast
   function processBoardClears() {
     const fullRows = [];
     const fullCols = [];
 
-    // Find full horizontal rows
     for (let r = 0; r < GRID_SIZE; r++) {
       if (board[r].every(cell => cell !== null)) {
         fullRows.push(r);
       }
     }
 
-    // Find full vertical columns
     for (let c = 0; c < GRID_SIZE; c++) {
       let isColFull = true;
       for (let r = 0; r < GRID_SIZE; r++) {
@@ -300,10 +306,9 @@
 
     if (totalLines > 0) {
       combo++;
-      screenShake = Math.min(8 + totalLines * 4, 24);
+      screenShake = Math.min(10 + totalLines * 5, 26);
       playBlastSound(combo);
 
-      // Collect cleared cells for particle blast
       const clearedSet = new Set();
       fullRows.forEach(r => {
         for (let c = 0; c < GRID_SIZE; c++) {
@@ -316,23 +321,21 @@
         }
       });
 
-      // Spawn particles & clear board cells
+      // Spawn juicy particles & clear board cells
       clearedSet.forEach(coord => {
         const [r, c] = coord.split(',').map(Number);
-        const cellColor = board[r][c] || '#38bdf8';
-        spawnCellParticles(r, c, cellColor);
+        const cellColor = board[r][c] || PALETTE.yellow;
+        spawnCellJuicyBlast(r, c, cellColor);
         board[r][c] = null;
       });
 
-      // Score calculation: 10 pts per line * combo multiplier + multi-line bonus
       const lineScore = totalLines * 10 * combo + (totalLines > 1 ? (totalLines - 1) * 20 : 0);
       score += lineScore;
 
-      // Spawn floating score badge
-      const midRow = fullRows.length > 0 ? fullRows[0] : (fullCols.length > 0 ? 4 : 4);
+      const midRow = fullRows.length > 0 ? fullRows[0] : 4;
       const midCol = fullCols.length > 0 ? fullCols[0] : 4;
       const { x, y } = getCellCenter(midRow, midCol);
-      addFloatingText(`+${lineScore}${combo > 1 ? ` Combo x${combo}!` : ''}`, x, y, '#fbbf24');
+      addFloatingText(`+${lineScore}${combo > 1 ? ` COMBO x${combo}!` : ''}`, x, y, '#fde047');
     } else {
       combo = 0;
     }
@@ -349,19 +352,37 @@
     };
   }
 
-  function spawnCellParticles(r, c, color) {
+  function spawnCellJuicyBlast(r, c, color) {
     const center = getCellCenter(r, c);
-    const count = 12;
+    const count = 14;
+    // 1. Shard particles
     for (let i = 0; i < count; i++) {
-      const angle = (Math.PI * 2 * i) / count + (Math.random() - 0.5) * 0.5;
-      const speed = 2.5 + Math.random() * 4.5;
+      const angle = (Math.PI * 2 * i) / count + (Math.random() - 0.5) * 0.6;
+      const speed = 3 + Math.random() * 5.5;
       particles.push({
         x: center.x,
         y: center.y,
         vx: Math.cos(angle) * speed,
         vy: Math.sin(angle) * speed,
-        size: Math.random() * 6 + 3,
+        size: Math.random() * 8 + 4,
         color,
+        alpha: 1,
+        life: 1,
+        spin: (Math.random() - 0.5) * 0.2,
+        rotation: 0
+      });
+    }
+
+    // 2. Star sparkles
+    for (let i = 0; i < 4; i++) {
+      const angle = Math.random() * Math.PI * 2;
+      const speed = 2 + Math.random() * 3;
+      starSparkles.push({
+        x: center.x,
+        y: center.y,
+        vx: Math.cos(angle) * speed,
+        vy: Math.sin(angle) * speed,
+        size: Math.random() * 10 + 6,
         alpha: 1,
         life: 1
       });
@@ -374,14 +395,20 @@
       x,
       y,
       alpha: 1,
-      scale: 1.3,
-      vy: -1.8,
+      scale: 1.4,
+      vy: -2.2,
       color
     });
   }
 
   function updateScoreDisplay() {
     currentScoreEl.textContent = score;
+    // Bouncy scale effect on score increase
+    currentScoreEl.style.transform = 'scale(1.18)';
+    setTimeout(() => {
+      currentScoreEl.style.transform = 'scale(1)';
+    }, 120);
+
     if (score > bestScore) {
       bestScore = score;
       localStorage.setItem(STORAGE_KEY_BEST, String(bestScore));
@@ -417,7 +444,7 @@
 
     setTimeout(() => {
       gameOverModal.classList.remove('hidden');
-    }, 400);
+    }, 450);
   }
 
   function restartGame() {
@@ -427,6 +454,7 @@
     isGameOver = false;
     historyStack = [];
     particles = [];
+    starSparkles = [];
     floatingTexts = [];
     drag.active = false;
     drag.slotIndex = -1;
@@ -443,7 +471,7 @@
     }
   }
 
-  // Layout Metrics Calculation
+  // Layout Calculation
   function updateMetrics() {
     const rect = canvasContainer.getBoundingClientRect();
     const width = Math.min(rect.width, 480);
@@ -461,18 +489,17 @@
     ctx.resetTransform?.();
     ctx.scale(metrics.dpr, metrics.dpr);
 
-    // Board Metrics: square centered horizontally
     const padding = 16;
     const availableWidth = width - padding * 2;
     const boardSize = Math.min(availableWidth, height * 0.58);
     metrics.boardSize = boardSize;
     metrics.boardX = (width - boardSize) / 2;
-    metrics.boardY = 16;
-    metrics.cellGap = 3;
+    metrics.boardY = 12;
+    metrics.cellGap = 4;
     metrics.cellSize = (boardSize - metrics.cellGap * (GRID_SIZE - 1)) / GRID_SIZE;
 
     // Dock Metrics
-    metrics.dockY = metrics.boardY + boardSize + 20;
+    metrics.dockY = metrics.boardY + boardSize + 16;
     metrics.dockHeight = height - metrics.dockY - 12;
     const slotWidth = (width - padding * 2) / 3;
 
@@ -486,41 +513,142 @@
     }));
   }
 
-  // Drawing Helpers
-  function drawRoundedRect(context, x, y, w, h, radius) {
+  // DRAWING: 3D Beveled Toy Block Engine
+  function drawRoundedRectPath(context, x, y, w, h, r) {
     context.beginPath();
-    context.moveTo(x + radius, y);
-    context.lineTo(x + w - radius, y);
-    context.quadraticCurveTo(x + w, y, x + w, y + radius);
-    context.lineTo(x + w, y + h - radius);
-    context.quadraticCurveTo(x + w, y + h, x + w - radius, y + h);
-    context.lineTo(x + radius, y + h);
-    context.quadraticCurveTo(x, y + h, x, y + h - radius);
-    context.lineTo(x, y + radius);
-    context.quadraticCurveTo(x, y, x + radius, y);
+    context.moveTo(x + r, y);
+    context.lineTo(x + w - r, y);
+    context.quadraticCurveTo(x + w, y, x + w, y + r);
+    context.lineTo(x + w, y + h - r);
+    context.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+    context.lineTo(x + r, y + h);
+    context.quadraticCurveTo(x, y + h, x, y + h - r);
+    context.lineTo(x, y + r);
+    context.quadraticCurveTo(x, y, x + r, y);
     context.closePath();
   }
 
-  function drawBlockCell(context, x, y, size, color, alpha = 1) {
+  function drawStar(context, cx, cy, spikes, outerRadius, innerRadius, color, alpha) {
+    let rot = (Math.PI / 2) * 3;
+    let x = cx;
+    let y = cy;
+    const step = Math.PI / spikes;
+
+    context.save();
+    context.globalAlpha = alpha;
+    context.beginPath();
+    context.moveTo(cx, cy - outerRadius);
+    for (let i = 0; i < spikes; i++) {
+      x = cx + Math.cos(rot) * outerRadius;
+      y = cy + Math.sin(rot) * outerRadius;
+      context.lineTo(x, y);
+      rot += step;
+
+      x = cx + Math.cos(rot) * innerRadius;
+      y = cy + Math.sin(rot) * innerRadius;
+      context.lineTo(x, y);
+      rot += step;
+    }
+    context.lineTo(cx, cy - outerRadius);
+    context.closePath();
+    context.fillStyle = color;
+    context.fill();
+    context.restore();
+  }
+
+  /**
+   * Renders a juicy, glossy 3D toy block cell with 4 beveled facets and specular highlight
+   */
+  function draw3DBlockCell(context, x, y, size, color, alpha = 1, isGhost = false) {
     context.save();
     context.globalAlpha = alpha;
 
-    const r = Math.max(3, size * 0.16);
-    drawRoundedRect(context, x, y, size, size, r);
+    const cornerRadius = Math.max(3, size * 0.16);
+    const bevel = Math.max(3, size * 0.18);
+
+    // 1. Drop shadow under block
+    if (!isGhost) {
+      context.save();
+      drawRoundedRectPath(context, x, y + 2, size, size, cornerRadius);
+      context.fillStyle = 'rgba(0, 0, 0, 0.35)';
+      context.fill();
+      context.restore();
+    }
+
+    // 2. Base rounded block fill
+    drawRoundedRectPath(context, x, y, size, size, cornerRadius);
     context.fillStyle = color;
     context.fill();
 
-    // Top subtle bevel highlight
-    context.beginPath();
-    drawRoundedRect(context, x + 1.5, y + 1.5, size - 3, size * 0.35, r);
-    context.fillStyle = 'rgba(255, 255, 255, 0.22)';
-    context.fill();
+    if (!isGhost) {
+      // 3. Four 3D Bevel Facets
+      // Top facet (brightest light reflection)
+      context.beginPath();
+      context.moveTo(x, y);
+      context.lineTo(x + size, y);
+      context.lineTo(x + size - bevel, y + bevel);
+      context.lineTo(x + bevel, y + bevel);
+      context.closePath();
+      context.fillStyle = 'rgba(255, 255, 255, 0.45)';
+      context.fill();
 
-    // Inset border
-    context.lineWidth = 1;
-    context.strokeStyle = 'rgba(0, 0, 0, 0.12)';
-    drawRoundedRect(context, x, y, size, size, r);
-    context.stroke();
+      // Left facet (soft light reflection)
+      context.beginPath();
+      context.moveTo(x, y);
+      context.lineTo(x + bevel, y + bevel);
+      context.lineTo(x + bevel, y + size - bevel);
+      context.lineTo(x, y + size);
+      context.closePath();
+      context.fillStyle = 'rgba(255, 255, 255, 0.22)';
+      context.fill();
+
+      // Right facet (side ambient shadow)
+      context.beginPath();
+      context.moveTo(x + size, y);
+      context.lineTo(x + size, y + size);
+      context.lineTo(x + size - bevel, y + size - bevel);
+      context.lineTo(x + size - bevel, y + bevel);
+      context.closePath();
+      context.fillStyle = 'rgba(0, 0, 0, 0.22)';
+      context.fill();
+
+      // Bottom facet (deep 3D bevel shadow)
+      context.beginPath();
+      context.moveTo(x, y + size);
+      context.lineTo(x + bevel, y + size - bevel);
+      context.lineTo(x + size - bevel, y + size - bevel);
+      context.lineTo(x + size, y + size);
+      context.closePath();
+      context.fillStyle = 'rgba(0, 0, 0, 0.40)';
+      context.fill();
+
+      // 4. Inner Cushion Face
+      const innerX = x + bevel;
+      const innerY = y + bevel;
+      const innerSize = size - bevel * 2;
+      drawRoundedRectPath(context, innerX, innerY, innerSize, innerSize, cornerRadius * 0.6);
+      context.fillStyle = color;
+      context.fill();
+
+      // Subtle inner gradient
+      const grad = context.createLinearGradient(innerX, innerY, innerX, innerY + innerSize);
+      grad.addColorStop(0, 'rgba(255, 255, 255, 0.25)');
+      grad.addColorStop(1, 'rgba(0, 0, 0, 0.15)');
+      context.fillStyle = grad;
+      context.fill();
+
+      // 5. Specular Gloss Dot / Pill Highlight
+      const glossSize = Math.max(2, size * 0.12);
+      context.beginPath();
+      context.arc(innerX + glossSize * 1.1, innerY + glossSize * 1.1, glossSize, 0, Math.PI * 2);
+      context.fillStyle = 'rgba(255, 255, 255, 0.85)';
+      context.fill();
+    } else {
+      // Ghost block outline & pulse
+      context.lineWidth = 2.5;
+      context.strokeStyle = '#fde047';
+      context.stroke();
+    }
 
     context.restore();
   }
@@ -530,43 +658,47 @@
     ctx.clearRect(0, 0, metrics.width, metrics.height);
 
     ctx.save();
-    // Screen shake
     if (screenShake > 0) {
       const sx = (Math.random() - 0.5) * screenShake;
       const sy = (Math.random() - 0.5) * screenShake;
       ctx.translate(sx, sy);
-      screenShake = Math.max(0, screenShake - 1.2);
+      screenShake = Math.max(0, screenShake - 1.4);
     }
 
-    // 1. Draw 8x8 Board Background Card
-    const boardRadius = 14;
-    drawRoundedRect(ctx, metrics.boardX - 6, metrics.boardY - 6, metrics.boardSize + 12, metrics.boardSize + 12, boardRadius);
-    ctx.fillStyle = '#0f172a';
+    // 1. Draw 8x8 Board Outer Tray Container
+    const boardRadius = 18;
+    drawRoundedRectPath(ctx, metrics.boardX - 8, metrics.boardY - 8, metrics.boardSize + 16, metrics.boardSize + 16, boardRadius);
+    ctx.fillStyle = '#0a1024';
     ctx.fill();
-    ctx.lineWidth = 2;
-    ctx.strokeStyle = '#334155';
+    ctx.lineWidth = 3;
+    ctx.strokeStyle = '#1e3a8a';
     ctx.stroke();
 
-    // 2. Draw Board Grid Cells
+    // 2. Draw Board Sockets (Recessed 3D holes)
     const cellSizeWithGap = metrics.cellSize + metrics.cellGap;
     for (let r = 0; r < GRID_SIZE; r++) {
       for (let c = 0; c < GRID_SIZE; c++) {
         const cx = metrics.boardX + c * cellSizeWithGap;
         const cy = metrics.boardY + r * cellSizeWithGap;
 
-        // Empty cell placeholder
-        drawRoundedRect(ctx, cx, cy, metrics.cellSize, metrics.cellSize, 4);
-        ctx.fillStyle = '#1e293b';
+        // Recessed socket background
+        drawRoundedRectPath(ctx, cx, cy, metrics.cellSize, metrics.cellSize, 6);
+        ctx.fillStyle = '#101c40';
         ctx.fill();
 
-        // Filled cell
+        // Inset socket shadow border
+        ctx.lineWidth = 1.5;
+        ctx.strokeStyle = '#1d2d5a';
+        ctx.stroke();
+
+        // Filled 3D Toy Block
         if (board[r][c] !== null) {
-          drawBlockCell(ctx, cx, cy, metrics.cellSize, board[r][c]);
+          draw3DBlockCell(ctx, cx, cy, metrics.cellSize, board[r][c]);
         }
       }
     }
 
-    // 3. Draw Placement Preview Ghost if Dragging or Selected
+    // 3. Draw Placement Preview Ghost
     if (drag.canPlaceHover && drag.piece && drag.hoverRow >= 0 && drag.hoverCol >= 0) {
       const pieceMatrix = drag.piece.matrix;
       const numRows = pieceMatrix.length;
@@ -579,31 +711,30 @@
             const pc = drag.hoverCol + c;
             const cx = metrics.boardX + pc * cellSizeWithGap;
             const cy = metrics.boardY + pr * cellSizeWithGap;
-            drawBlockCell(ctx, cx, cy, metrics.cellSize, drag.piece.color, 0.45);
+            draw3DBlockCell(ctx, cx, cy, metrics.cellSize, drag.piece.color, 0.55, true);
           }
         }
       }
     }
 
-    // 4. Draw Dock Slots & Available Pieces
+    // 4. Draw Dock Tray & Available Pieces
     metrics.dockSlots.forEach((slot, index) => {
-      // Draw subtle slot tray container
-      drawRoundedRect(ctx, slot.x + 4, slot.y + 4, slot.width - 8, slot.height - 8, 12);
-      ctx.fillStyle = '#f1f5f9';
+      // Tray Slot Capsule
+      drawRoundedRectPath(ctx, slot.x + 4, slot.y + 4, slot.width - 8, slot.height - 8, 16);
+      ctx.fillStyle = 'rgba(15, 23, 42, 0.45)';
       ctx.fill();
-      ctx.lineWidth = 1;
-      ctx.strokeStyle = (drag.selectedSlot === index) ? '#3b82f6' : '#e2e8f0';
+      ctx.lineWidth = 2;
+      ctx.strokeStyle = (drag.selectedSlot === index) ? '#38bdf8' : 'rgba(255, 255, 255, 0.08)';
       ctx.stroke();
 
       const piece = dock[index];
-      // Don't draw in slot if actively being dragged
       if (piece && (!drag.active || drag.slotIndex !== index)) {
         const canFit = canPieceFitAnywhere(piece.matrix, board);
         drawDockPiece(ctx, piece, slot.centerX, slot.centerY, canFit ? 1 : 0.35);
       }
     });
 
-    // 5. Draw Actively Dragged Piece
+    // 5. Draw Actively Dragged Piece with Glowing Aura & Star Sparkles
     if (drag.active && drag.piece) {
       const pieceMatrix = drag.piece.matrix;
       const numRows = pieceMatrix.length;
@@ -612,22 +743,56 @@
       const pieceWidth = numCols * (pieceCellSize + metrics.cellGap);
       const pieceHeight = numRows * (pieceCellSize + metrics.cellGap);
 
-      // Centered at pointer with touch vertical offset
       const startX = drag.pointerX - pieceWidth / 2;
       const startY = drag.pointerY + drag.touchOffsetY - pieceHeight / 2;
+
+      // Glowing aura behind dragged piece
+      ctx.save();
+      ctx.shadowColor = drag.piece.color;
+      ctx.shadowBlur = 20;
 
       for (let r = 0; r < numRows; r++) {
         for (let c = 0; c < numCols; c++) {
           if (pieceMatrix[r][c] === 1) {
             const bx = startX + c * (pieceCellSize + metrics.cellGap);
             const by = startY + r * (pieceCellSize + metrics.cellGap);
-            drawBlockCell(ctx, bx, by, pieceCellSize, drag.piece.color, 0.95);
+            draw3DBlockCell(ctx, bx, by, pieceCellSize, drag.piece.color, 1);
           }
         }
       }
+      ctx.restore();
+
+      // Spawn periodic trail sparkles while dragging
+      if (Math.random() < 0.25) {
+        starSparkles.push({
+          x: drag.pointerX + (Math.random() - 0.5) * pieceWidth,
+          y: drag.pointerY + drag.touchOffsetY + (Math.random() - 0.5) * pieceHeight,
+          vx: (Math.random() - 0.5) * 1.5,
+          vy: -1.5 - Math.random() * 2,
+          size: Math.random() * 8 + 4,
+          alpha: 1,
+          life: 1
+        });
+      }
     }
 
-    // 6. Draw Blasting Particles
+    // 6. Draw Sparkle Stars
+    for (let i = starSparkles.length - 1; i >= 0; i--) {
+      const s = starSparkles[i];
+      s.x += s.vx;
+      s.y += s.vy;
+      s.life -= 0.04;
+      s.alpha = Math.max(0, s.life);
+
+      if (s.life <= 0) {
+        starSparkles.splice(i, 1);
+        continue;
+      }
+
+      drawStar(ctx, s.x, s.y, 4, s.size * s.life, s.size * 0.4 * s.life, '#fde047', s.alpha);
+    }
+
+    // 7. Draw Blasting Particles
     for (let i = particles.length - 1; i >= 0; i--) {
       const p = particles[i];
       p.x += p.vx;
@@ -636,6 +801,7 @@
       p.vy *= 0.94;
       p.life -= 0.035;
       p.alpha = Math.max(0, p.life);
+      p.rotation += p.spin;
 
       if (p.life <= 0) {
         particles.splice(i, 1);
@@ -644,14 +810,15 @@
 
       ctx.save();
       ctx.globalAlpha = p.alpha;
+      ctx.translate(p.x, p.y);
+      ctx.rotate(p.rotation);
       ctx.fillStyle = p.color;
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, p.size * p.life, 0, Math.PI * 2);
+      drawRoundedRectPath(ctx, -p.size / 2, -p.size / 2, p.size, p.size, 2);
       ctx.fill();
       ctx.restore();
     }
 
-    // 7. Draw Floating Score Badges
+    // 8. Draw Floating Cartoon Combo Badges
     for (let i = floatingTexts.length - 1; i >= 0; i--) {
       const ft = floatingTexts[i];
       ft.y += ft.vy;
@@ -665,11 +832,14 @@
 
       ctx.save();
       ctx.globalAlpha = Math.max(0, ft.alpha);
-      ctx.font = `bold ${Math.round(18 * ft.scale)}px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif`;
+      ctx.font = `900 ${Math.round(20 * ft.scale)}px 'Fredoka', -apple-system, sans-serif`;
       ctx.fillStyle = ft.color;
       ctx.textAlign = 'center';
-      ctx.shadowColor = 'rgba(0, 0, 0, 0.3)';
-      ctx.shadowBlur = 6;
+      ctx.shadowColor = 'rgba(0, 0, 0, 0.6)';
+      ctx.shadowBlur = 8;
+      ctx.lineWidth = 3;
+      ctx.strokeStyle = '#0f172a';
+      ctx.strokeText(ft.text, ft.x, ft.y);
       ctx.fillText(ft.text, ft.x, ft.y);
       ctx.restore();
     }
@@ -682,8 +852,8 @@
   function drawDockPiece(context, piece, centerX, centerY, alpha = 1) {
     const numRows = piece.matrix.length;
     const numCols = piece.matrix[0].length;
-    const miniCellSize = Math.min(22, metrics.cellSize * 0.55);
-    const miniGap = 2;
+    const miniCellSize = Math.min(24, metrics.cellSize * 0.58);
+    const miniGap = 3;
 
     const totalW = numCols * miniCellSize + (numCols - 1) * miniGap;
     const totalH = numRows * miniCellSize + (numRows - 1) * miniGap;
@@ -695,7 +865,7 @@
         if (piece.matrix[r][c] === 1) {
           const x = startX + c * (miniCellSize + miniGap);
           const y = startY + r * (miniCellSize + miniGap);
-          drawBlockCell(context, x, y, miniCellSize, piece.color, alpha);
+          draw3DBlockCell(context, x, y, miniCellSize, piece.color, alpha);
         }
       }
     }
@@ -728,7 +898,6 @@
     const pieceTopLeftX = px - pieceWidth / 2;
     const pieceTopLeftY = py - pieceHeight / 2;
 
-    // Nearest column & row
     const col = Math.round((pieceTopLeftX - metrics.boardX) / cellSizeWithGap);
     const row = Math.round((pieceTopLeftY - metrics.boardY) / cellSizeWithGap);
 
@@ -740,11 +909,9 @@
     if (isGameOver) return;
     const { x, y } = getCanvasCoordinates(e);
 
-    // 1. Check if clicked a piece in dock
     const slotIdx = getSlotAtPosition(x, y);
     if (slotIdx !== -1 && dock[slotIdx] !== null) {
       const piece = dock[slotIdx];
-      // On touch devices, offset piece ~65px above finger so thumb doesn't hide it
       const isTouch = e.pointerType === 'touch';
       const touchOffsetY = isTouch ? -65 : 0;
 
@@ -767,7 +934,6 @@
       return;
     }
 
-    // 2. Tap-to-place support (if a piece was already selected from dock, click on board)
     if (drag.selectedSlot !== -1 && dock[drag.selectedSlot] !== null) {
       const selectedPiece = dock[drag.selectedSlot];
       const cellSizeWithGap = metrics.cellSize + metrics.cellGap;
@@ -829,39 +995,28 @@
       }
     }
 
-    // Award placement score
     score += placedCellsCount;
     updateScoreDisplay();
 
-    // Consume piece from dock
     dock[dockIndex] = null;
 
     if (window.ViggaAudio && typeof window.ViggaAudio.playMove === 'function') {
       window.ViggaAudio.playMove(false);
     }
 
-    // Check line clears & combos
     processBoardClears();
-
-    // Check next round or game over
     checkGameStateAfterMove();
   }
 
-  // Initialization & Event Binding
   function initGame() {
     bestScoreEl.textContent = bestScore;
     updateScoreDisplay();
 
-    // Setup navigation shell
     if (window.ViggaNav && typeof window.ViggaNav.init === 'function') {
       window.ViggaNav.init({ audioModule: window.ViggaAudio });
     }
 
-    // Event Listeners
-    window.addEventListener('resize', () => {
-      updateMetrics();
-    });
-
+    window.addEventListener('resize', updateMetrics);
     canvas.addEventListener('pointerdown', handlePointerDown);
     window.addEventListener('pointermove', handlePointerMove);
     window.addEventListener('pointerup', handlePointerUp);
@@ -878,7 +1033,6 @@
     requestAnimationFrame(render);
   }
 
-  // Start when DOM is ready
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initGame);
   } else {

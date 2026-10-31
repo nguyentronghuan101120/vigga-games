@@ -1,0 +1,11 @@
+{
+  "cleanUrls": true,
+  "redirects": [
+    {
+      "source": "/",
+      "destination": "https://vigga.netlify.app/",
+      "permanent": false
+    }
+  ]
+}
+

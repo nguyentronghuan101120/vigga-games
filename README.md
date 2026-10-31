@@ -30,9 +30,13 @@ This document summarizes the technical decisions, system architecture, and devel
   * **HTML5 Canvas 2D:** For games requiring physics, particle systems, or real-time animations (Tetris, Block Blast, Water Sort).
 * **Audio Synthesis:** Web Audio API (`shared/js/audio.js`) for procedural sound effects without external audio assets.
 
-### 2.3. Design Language: **Clean Flat / Minimalist**
-* **Design Influences:** Wordle (NYT), 2048, and LinkedIn Games (Queens, Tango, Pinpoint).
-* **Visual Palette:** Soft pastel tones, ergonomic contrast ratios, smooth border radii, flat iconography.
+### 2.3. Design Language: **Vibrant Juicy 3D Cartoon / Casual Toy**
+* **Design Influences:** Block Blast, Candy Crush, Royal Match, and Toy Blast.
+* **Visual Palette & Material:**
+  * 3D Beveled Toy Blocks & Tokens: Chunky tactile pieces with 4 beveled facets, glossy specular highlights, and ambient drop shadows.
+  * Bubbly Rounded Typography: Chunky, cheerful fonts (`Fredoka`) with bold outlines and contrast.
+  * Recessed Socket Trays: Inset socket grids and toy containers.
+  * Juicy Feedback: Glowing halos, trailing sparkle stars, screen shake, and celebratory particle explosions.
 * **Standard Shell Navigation:**
   * `Back to Hub` button (pointing to `https://vigga.netlify.app/`).
   * `Undo` action button (where applicable).

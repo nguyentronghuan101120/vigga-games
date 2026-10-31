@@ -3,8 +3,8 @@ name: create-game
 description: >-
   Interactive and autonomous workflow to scope, design, implement, and self-test
   a new web-based mini-game for Vigga Games. Enforces a strict one-by-one interview,
-  monorepo shared module reuse, English-only outputs, .vscode/launch.json update,
-  and automated self-playtesting.
+  monorepo shared module reuse, English-only outputs, .vscode/launch.json, Makefile,
+  and README.md synchronization, and automated self-playtesting.
 ---
 
 # Create Game Workflow
@@ -24,7 +24,7 @@ Before asking any questions or generating code, the AI **must** inspect and read
    - System architecture (HTML5 + CSS3 + Vanilla JavaScript, zero heavy frameworks).
    - Monorepo folder layout and shared modules in `/shared/` (`shell.css`, `audio.js`, `navigation.js`).
    - Existing games and the roadmap.
-   - Design guidelines (clean minimalist flat pastel UI, ergonomics, responsive mobile & desktop).
+   - Design guidelines (Vibrant Juicy 3D Cartoon / Casual Toy aesthetic, beveled toy blocks/tokens, bubbly rounded typography, recessed socket grids, responsive mobile & desktop).
 2. Check existing implementations (e.g., `games/caro/`) as a reference benchmark for quality, shell header integration, and controls.
 
 ---
@@ -83,12 +83,12 @@ Once all 4 questions are answered, proceed to build the game inside `games/<game
 
 ---
 
-## Phase 3: Launch Configuration Update
+## Phase 3: Project Registration & Deployment Config Update
 
-After creating the game files, update `.vscode/launch.json` to register the new game for debugging:
+After creating the game files, update project configuration files:
 
-1. Read `.vscode/launch.json`.
-2. Add a new Chrome launch configuration entry:
+1. **VS Code Launch Config (`.vscode/launch.json`):**
+   Add a new Chrome launch configuration entry:
    ```json
    {
      "type": "chrome",
@@ -97,7 +97,16 @@ After creating the game files, update `.vscode/launch.json` to register the new 
      "file": "${workspaceFolder}/games/<game-id>/index.html"
    }
    ```
-3. Save the formatted `.vscode/launch.json`.
+
+2. **Deployment Shortcut (`Makefile`):**
+   Ensure `Makefile` prints the production URL of the new game upon running `make deploy`:
+   ```makefile
+   @echo "  • <Game Name>: https://vigga-games.vercel.app/games/<game-id>/"
+   ```
+
+3. **Documentation Sync (`README.md`):**
+   - Register the new game path `games/<game-id>/` in the Monorepo Structure tree.
+   - Append its specification (dimensions, rules, modes, features) under Section 4.
 
 ---
 
@@ -122,7 +131,8 @@ The AI must actively test the game before handing it off to the user:
 
 Provide a concise summary to the user containing:
 - Direct local link to the game: `games/<game-id>/index.html`.
-- Confirmation that `.vscode/launch.json` has been updated with `<Game Name> (Chrome)`.
+- Production live URL: `https://vigga-games.vercel.app/games/<game-id>/`.
+- Confirmation that `.vscode/launch.json`, `Makefile`, and `README.md` have been updated.
 - Self-play test results (moves simulated, win/loss triggers verified, zero errors).
-- Brief instructions on how to test or run the game locally.
+- Brief instructions on how to test locally or deploy with `make deploy`.
 

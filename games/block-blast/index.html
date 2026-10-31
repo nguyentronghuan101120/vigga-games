@@ -22,14 +22,14 @@
     </div>
 
     <div class="shell-header-center">
-      <span>Block Blast</span>
+      <span class="game-logo">BLOCK BLAST</span>
     </div>
 
     <div class="shell-header-right">
       <button id="btn-sound" class="shell-btn icon-only" title="Toggle Sound"></button>
       <button id="btn-restart" class="shell-btn primary" title="New Game">
         <svg viewBox="0 0 24 24"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"></path></svg>
-        <span>New Game</span>
+        <span>New</span>
       </button>
     </div>
   </header>
@@ -38,16 +38,17 @@
   <main class="game-wrapper">
     <!-- Score & Stats Bar -->
     <section class="hud-bar" aria-label="Game Statistics">
-      <div class="stat-card">
-        <span class="stat-label">SCORE</span>
-        <span id="current-score" class="stat-value">0</span>
+      <div class="best-card">
+        <span class="crown-icon" aria-hidden="true">👑</span>
+        <span id="best-score" class="best-number">0</span>
       </div>
+
+      <div class="score-card">
+        <span id="current-score" class="score-number">0</span>
+      </div>
+
       <div id="combo-badge" class="combo-pill hidden">
         <span id="combo-text">COMBO x2</span>
-      </div>
-      <div class="stat-card">
-        <span class="stat-label">BEST</span>
-        <span id="best-score" class="stat-value">0</span>
       </div>
     </section>
 
@@ -60,26 +61,26 @@
   <!-- Game Over Modal -->
   <div id="game-over-modal" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="modal-title">
     <div class="modal-card">
-      <h2 id="modal-title" class="modal-title">Game Over</h2>
-      <p class="modal-subtitle">No more space for the remaining blocks!</p>
+      <div class="modal-mascot">💥</div>
+      <h2 id="modal-title" class="modal-title">GAME OVER!</h2>
+      <p class="modal-subtitle">No more space for remaining blocks</p>
       
       <div class="modal-scores">
         <div class="modal-score-item">
-          <span class="score-label">Final Score</span>
-          <span id="modal-final-score" class="score-number">0</span>
+          <span class="score-label">SCORE</span>
+          <span id="modal-final-score" class="modal-num">0</span>
         </div>
-        <div class="modal-score-item">
-          <span class="score-label">Best Record</span>
-          <span id="modal-best-score" class="score-number">0</span>
+        <div class="modal-score-item highlight">
+          <span class="score-label">👑 BEST</span>
+          <span id="modal-best-score" class="modal-num">0</span>
         </div>
       </div>
 
-      <div id="new-high-badge" class="high-score-badge hidden">NEW HIGH SCORE!</div>
+      <div id="new-high-badge" class="high-score-badge hidden">🎉 NEW HIGH RECORD! 🎉</div>
 
       <div class="modal-actions">
-        <button id="btn-modal-restart" class="shell-btn primary btn-large">
-          <svg viewBox="0 0 24 24"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"></path></svg>
-          <span>Play Again</span>
+        <button id="btn-modal-restart" class="cartoon-btn-large">
+          <span>PLAY AGAIN</span>
         </button>
       </div>
     </div>
@@ -90,4 +91,3 @@
   <script src="game.js"></script>
 </body>
 </html>
-
